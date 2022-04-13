@@ -92,11 +92,11 @@ function calculateCorrectAnswer() {
     let operator = document.getElementById('operator').innerText;
 
     if (operator === "+") {
-        return [operand1, operand2, "addition"];
+        return [operand1 + operand2, "addition"];
     } else if (operator === "x") {
-        return [operand1, operand2, "multiply"];
+        return [operand1 * operand2, "multiply"];
     } else if (operator === "-") {
-        return [operand1, operand2, "subtract"];
+        return [operand1 - operand2, "subtract"];
     } else {
         // Will throw an alert message if cannot detect the operator.
         alert(`Unimplemented operator ${operator}`);
@@ -140,8 +140,7 @@ function displaySubtractQuestion(operand1, operand2) {
     document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
     document.getElementById('operand2').textContent = operand1 > operand2 ? operand2 : operand1;
     document.getElementById('operator').textContent = "-";
-
-
+}
 
 // Uses the x symbol for user familiarity rather than * as used in computing.
 function displayMultiplyQuestion(operand1, operand2) {
@@ -149,9 +148,4 @@ function displayMultiplyQuestion(operand1, operand2) {
     document.getElementById('operand2').textContent = operand2;
     document.getElementById('operator').textContent = "x";
 }
-
-/**
- * We need 3 things when creating a new question; 1) add the gameType check to runGame(). 2) Create the display question function.
- * 3) Modify the calculateCorrectAnswer function.
- */
 
