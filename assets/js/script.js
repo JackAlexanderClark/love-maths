@@ -15,6 +15,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+    // If keydown is entered then run checkAnswer function.
+    document.getElementById("answer.box").addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            checkAnswer();
+        }
+    }) 
     
     // Outside the for loop, run addition game.
     runGame("addition");
@@ -27,6 +33,14 @@ document.addEventListener("DOMContentLoaded", function() {
  * pass through the gameType argument into the runGame() function.
  */
 function runGame(gameType) {
+    
+    /**
+     * Will set answer-box to reset to an empty string eachtime, so you don't have to reset the answer box each time.
+     * Each time runGame() function is called the focus() method will make the cursor start in the answer box.
+    */
+    document.getElementById("answer-box").value = "";
+    document.getElementById("answer-box").focus();
+
 
     // Creating a whole number integer random number 1 - 25.
     let num1 = Math.floor(Math.random() * 25 + 1);
@@ -36,15 +50,15 @@ function runGame(gameType) {
         displayAdditionQuestion(num1, num2);
     } else if (gameType === "multiply") {
         displayMultiplyQuestion(num1, num2);
-    } else if (gameType ==="subtraction") {
+    } else if (gameType ==="subtract") {
         displaySubtractQuestion(num1, num2);
-    }
-    else {
+    } else {
         // Displaying error message.
         alert(`Unknown game type: ${gametype}`)
         throw `Unknown game type: ${gameType}. Aborting!`;
     }
 }
+
 /**
  * The checkAnswer() function will check the answer against the first element in the returned array 
  * from the calculateCorrectAnswer() function. Array has the "addition" gametype in its second element to keep the addition game running.
@@ -81,8 +95,9 @@ function calculateCorrectAnswer() {
         return [operand1, operand2, "addition"];
     } else if (operator === "x") {
         return [operand1, operand2, "multiply"];
-    }
-    else {
+    } else if (operator === "-") {
+        return [operand1, operand2, "subtract"];
+    } else {
         // Will throw an alert message if cannot detect the operator.
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting!!!`;
@@ -103,6 +118,7 @@ function incrementScore() {
  * This function will get the current tally score of incorrect answers from the DOM and increments it by 1.
  */
 function incrementWrongAnswer() {
+    
     let oldScore = parseInt(document.getElementById("incorrect").innerText);
     document.getElementById("incorrect").innerText = ++oldScore;
 }
@@ -116,9 +132,16 @@ function displayAdditionQuestion(operand1, operand2) {
 
 function displaySubtractQuestion(operand1, operand2) {
 
-    document.getElementById('operand1').textContent =
+    /**
+     * Using ternary statement to write the condition. Which is bigger? If operand1 is > operand2 return that. 
+     * If operand2 is bigger than operand1 return that.
+     * condition ? true part: false part;
+    */
+    document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
+    document.getElementById('operand2').textContent = operand1 > operand2 ? operand2 : operand1;
+    document.getElementById('operator').textContent = "-";
 
-}
+
 
 // Uses the x symbol for user familiarity rather than * as used in computing.
 function displayMultiplyQuestion(operand1, operand2) {
@@ -132,6 +155,3 @@ function displayMultiplyQuestion(operand1, operand2) {
  * 3) Modify the calculateCorrectAnswer function.
  */
 
-function displayDivisionQuestion() {
-
-}
